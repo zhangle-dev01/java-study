@@ -12,7 +12,9 @@
 	4.编写SQL语句并运行测试。
 ```
 
-①![image-20230618140749372](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230618140749372.png)
+①
+
+![image-20230618150226280](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230618150226280.png)
 
 ②
 

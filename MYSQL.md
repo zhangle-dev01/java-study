@@ -586,14 +586,231 @@ select  聚合函数(字段列表)  from  表名 ;
 | avg      | 平均值   |
 | sum      | 求和     |
 
-> count ：按照列去统计有多少行数据。
->
-> - 在根据指定的列统计的时候，如果这一列中有null的行，该行不会被统计在其中。
->
-> sum ：计算指定列的数值和，如果不是数值类型，那么计算结果为0
->
-> max ：计算指定列的最大值
->
-> min ：计算指定列的最小值
->
-> avg ：计算指定列的平均值
+
+
+
+
+### 5.多表查询
+
+​		数据库多表查询，顾名思义单张表的数据不满足于我们的需求，所以需要查询多张表来获得数据。例如：查询一张表的所有数据，SQL语句为：select  *  from 表名A ；
+
+​		思考：那么查询两张表时能否直接在表名后面接上另一张表呢？例如：查询两张表的所有数据，语句为：select  *  from 表名A，表名B；
+
+​		语句执行，此时会发现查询结果会包含大量的结果集，是因为两张表的任意一条数据都跟另一张表的任意数据关联起来。例如A表中有10条数据，B表中有5条数据。则上面的语句执行会产生 10 × 5 = 50条数据。此时会生成**笛卡尔积** 。
+
+笛卡尔积：笛卡尔乘积是指在数学中，两个集合(A集合和B集合)的所有组合情况。
+
+![image-20230629165205739](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230629165205739.png)
+
+**所以进行多表查询时，需要消除无效的笛卡尔积，只保留表中关联部分的数据。那么该如何消除无效的笛卡尔积呢？只需要给多表查询加上连接查询的条件即可。**
+
+```
+select * from tb_emp , tb_dept where tb_emp.dept_id = tb_dept.id ;
+```
+
+多表查询又分为三种：**内连接、外连接、子查询。**
+
+##### 5.1  **内连接**
+
+内连接查询即查询两表或多表中交集部分的数据。
+
+内连接语法上可以分为：**隐式内连接、显式内连接。**
+
+隐式内连接语法：
+
+``` mysql
+select  字段列表   from   表1 , 表2   where  条件 ... ;
+```
+
+显式内连接语法：
+
+``` mysql
+select  字段列表   from   表1  [ inner ]  join 表2  on  连接条件 ... ;
+```
+
+示例：
+
+（1）隐式内连接实现
+
+```sql
+select tb_emp.name , tb_dept.name -- 分别查询两张表中的数据
+from tb_emp , tb_dept -- 关联两张表
+where tb_emp.dept_id = tb_dept.id; -- 消除笛卡尔积
+```
+
+（2）显式内连接实现
+
+```sql
+select tb_emp.name , tb_dept.name
+from tb_emp inner join tb_dept
+on tb_emp.dept_id = tb_dept.id;
+```
+
+**提示：**多表查询时可以在表名后给表起别名
+
+```sql
+select * from table_a as A ,table_b as B where A.id = B.id;
+```
+
+**注意事项: ** 一旦为表起了别名，就不能再使用表名来指定对应的字段了，此时只能够使用别名来指定字段。
+
+##### 5.2  **外连接**
+
+外连接分为两种：左外连接 和 右外连接。
+
+左外连接语法结构：
+
+```mysql
+select  字段列表   from   表1  left  [ outer ]  join 表2  on  连接条件 ... ;
+```
+
+> 左外连接相当于查询表1(左表)的所有数据，当然也包含表1和表2交集部分的数据。
+
+右外连接语法结构：
+
+```mysql
+select  字段列表   from   表1  right  [ outer ]  join 表2  on  连接条件 ... ;
+```
+
+> 右外连接相当于查询表2(右表)的所有数据，当然也包含表1和表2交集部分的数据。
+
+**注意：**1. 若查询主表时，某个字段没有和它相关联的数据，则该关联数据会自动填充为null。
+
+![image-20230629175830779](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230629175830779.png)
+
+2.左外连接和右外连接是可以相互替换的，只需要调整连接查询时SQL语句中表的先后顺序就可以了。在日常开发使用时，更偏向于左外连接。
+
+##### 5.3  子查询
+
+SQL语句中嵌套select语句，称为嵌套查询，又称子查询。
+
+```sql
+SELECT  *  FROM   t1   WHERE  column1 =  ( SELECT  column1  FROM  t2 ... );
+```
+
+> 子查询外部的语句可以是insert / update / delete / select 的任何一个，最常见的是 select。
+
+根据子查询结果的不同分为：
+
+1. 标量子查询（子查询结果为单个值[一行一列]）
+
+2. 列子查询（子查询结果为一列，但可以是多行）
+
+3. 行子查询（子查询结果为一行，但可以是多列）
+
+4. 表子查询（子查询结果为多行多列[相当于子查询结果是一张表]）
+
+子查询可以书写的位置：
+
+1. where之后
+2. from之后
+3. select之后
+
+###### 5.3.1标量子查询
+
+​		**子查询返回的结果是单个值(数字、字符串、日期等)，最简单的形式，这种子查询称为标量子查询。**
+
+**常用的操作符： =   <>   >    >=    <   <= 。**
+
+下面是两个简单示例：  
+
+问：查询"教研部"的所有员工信息
+
+答：可以先查询教研部的id值，再去员工表根据id查询所有员工
+
+```sql
+-- 1.查询"教研部"部门ID
+select id from tb_dept where name = '教研部';    #查询结果：2
+-- 2.根据"教研部"部门ID, 查询员工信息
+select * from tb_emp where dept_id = 2;
+
+-- 合并出上两条SQL语句
+select * from tb_emp where dept_id = (select id from tb_dept where name = '教研部');
+```
+
+问：查询在 "方东白" 入职之后的员工信息
+
+答：先查询“先查询方东白”的入职时间，再查询入职时间大于这个时间段员工
+
+```sql
+-- 1.查询"方东白"的入职日期
+select entrydate from tb_emp where name = '方东白';     #查询结果：2012-11-01
+-- 2.查询指定入职日期之后入职的员工信息
+select * from tb_emp where entrydate > '2012-11-01';
+
+-- 合并以上两条SQL语句
+select * from tb_emp where entrydate > (select entrydate from tb_emp where name = '方东白');
+```
+
+###### 5.3.2列子查询
+
+**子查询返回的结果是一列(可以是多行)，这种子查询称为列子查询。**
+
+常用的操作符：
+
+| **操作符** | **描述**                     |
+| ---------- | ---------------------------- |
+| in         | 在指定的集合范围之内，多选一 |
+| not in     | 不在指定的集合范围之内       |
+
+下面是简单示例：
+
+问：查询"教研部"和"咨询部"的所有员工信息
+
+答：查询到这两个部门的id，再用小括号括起一块查询员工
+
+```sql
+-- 1.查询"销售部"和"市场部"的部门ID
+select id from tb_dept where name = '教研部' or name = '咨询部';    #查询结果：3,2
+-- 2.根据部门ID, 查询员工信息
+select * from tb_emp where dept_id in (3,2);
+
+-- 合并以上两条SQL语句
+select * from tb_emp where dept_id in (select id from tb_dept where name = '教研部' or name = '咨询部');
+```
+
+###### 5.3.3行子查询
+
+子查询返回的结果是一行(可以是多列)，这种子查询称为行子查询。
+
+常用的操作符：= 、<> 、IN 、NOT IN
+
+下面是简单示例：
+
+问：查询与"韦一笑"的入职日期及职位都相同的员工信息 
+
+答：先查询出韦一笑的入职时间和职位，然后带着拼装语句条件查询员工表中与之相同的员工
+
+```sql
+-- 查询"韦一笑"的入职日期 及 职位
+select entrydate , job from tb_emp where name = '韦一笑';  #查询结果： 2007-01-01 , 2
+-- 查询与"韦一笑"的入职日期及职位相同的员工信息
+select * from tb_emp where (entrydate,job) = ('2007-01-01',2);
+
+--合并以上两条语句
+select * from tb_emp where (entrydate,job) = (select entrydate , job from tb_emp where name = '韦一笑');
+```
+
+###### 5.3.4表子查询
+
+子查询返回的结果是多行多列，常作为临时表，这种子查询称为表子查询。
+
+下面是简单案例：
+
+问：查询入职日期是 "2006-01-01" 之后的员工信息 , 及其部门信息
+
+答：先查询入职日期是 "2006-01-01" 之后的员工，在根据员工信息查询其部门信息
+
+```sql
+select * from emp where entrydate > '2006-01-01';
+
+select e.*,d.* from (select * from emp where entrydate > '2006-01-01') e left join dept d on e.dept_id = d.id ;
+```
+
+### 6.事务
+
+思考：假如学工部准备解散，现在已经删除了学工部，但删除学工部的员工时出现错误，没有删除掉。此时就造成了数据的不一致，若要解决上述问题，就需要通过数据库的事务来解决。
+
+
+
+##### 6.1操作事务

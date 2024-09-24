@@ -8,12 +8,12 @@
 
 + 首先我们需要**在浏览器输入栏中输入域名**，域名会通过运营商的dns服务器**解析成IP地址**，然后浏览器**通过这个IP地址访问到前端服务器中的前端程序**，这时候前端程序会将前端代码返回给浏览器，如下图所示：
 
-​		![image-20230503194128560](笔记图片/image-20230503194128560.png)
+​		![image-20230503194128560](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503194128560.png)
 
 + 浏览器得到了前端代码，浏览器会将前端代码进行解析，然后展示到浏览器的窗口中，这时用户就可以看到网站的初步页面，但此时的页面中是没有数据的。
 
 + 下一步需要去拿到数据并在页面上显示，在这之前，浏览器需要依据**前端代码中指定的后台服务器的地址**向后台服务器发起请求，**后台服务器会从数据库中获取数据**，然后返回给浏览器。
-+ ![image-20230503195026588](笔记图片/image-20230503195026588.png)
++ ![image-20230503195026588](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503195026588.png)
 + 浏览器拿到后台返回的数据后，会将数据展示在网页上，这样用户就能看到一个完整的网页了。
 
 简单来说就是：
@@ -28,7 +28,7 @@
 
 ​		什么是网站开发模式？一般来说网站开发模式分为两种。一种是前后端分离项目，一种是混合开发。目前企业开发的主流是前后端分离项目。
 
-![image-20230503201350308](笔记图片/image-20230503201350308.png)
+![image-20230503201350308](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503201350308.png)
 
 ​		网站开发所需要使用的基本技术有哪些呢？
 
@@ -72,7 +72,7 @@
 
 ​		下面是一些常见标签：
 
-![image-20230503203942245](笔记图片/image-20230503203942245.png)
+![image-20230503203942245](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503203942245.png)
 
 "<div>"：定义HTML文档中的一个区域部分，经常与CSS一起使用，用来布局页面。
 
@@ -80,9 +80,9 @@
 
 ​		下面学习一些简单的表单标签：
 
-![image-20230503204345388](笔记图片/image-20230503204345388.png)
+![image-20230503204345388](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503204345388.png)
 
-![image-20230503204500350](笔记图片/image-20230503204500350.png)
+![image-20230503204500350](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503204500350.png)
 
 ##### 2.2 CSS
 
@@ -94,11 +94,11 @@
 
 + 外部样式：定义<link>标签，引入外部的css文件。
 
-![image-20230503204954425](笔记图片/image-20230503204954425.png)
+![image-20230503204954425](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503204954425.png)
 
 ​		那么什么又是CSS选择器呢？这是选取需设置样式的元素。选择器也有三种，它们分别是元素选择器，id选择器和类选择器。其实这三种选择器的优先级是：**元素选择器>类选择器>id选择器**，它们的格式如下：
 
-![image-20230503205554212](笔记图片/image-20230503205554212.png)
+![image-20230503205554212](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503205554212.png)
 
 ##### 2.3 JavaScript
 
@@ -112,7 +112,7 @@
 
 ​		JavaScript与Java的书写语法基本相同，不同的地方在于JS代码每行结尾的分号可有可无（但建议加上）。JS有三种输出的方式可以用作在网页中输出语句。
 
-![image-20230503211225352](笔记图片/image-20230503211225352.png)
+![image-20230503211225352](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503211225352.png)
 
 ​		JS中的变量，JavaScript是一门**弱类型语言**，**所以变量可以存放不同类型的值**，JS用**var**关键字来声明变量。
 
@@ -133,7 +133,7 @@ a = "张三";
 
 JavaScript中分为：**原始类型**和**引用类型。**
 
-![image-20230503211912172](笔记图片/image-20230503211912172.png)
+![image-20230503211912172](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503211912172.png)
 
 可以使用typeof运算符来获取数据类型：
 
@@ -144,7 +144,7 @@ alert(typeof  a);
 
 JavaScript中的运算符和Java基本相同，不同的是多了一个”===“运算符，注意===运算符不会进行类型转换，而==运算符会进行类型转换。
 
-![image-20230503212415598](笔记图片/image-20230503212415598.png)
+![image-20230503212415598](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230503212415598.png)
 
 ### 3. JavaScript基本对象（二）
 
@@ -204,15 +204,15 @@ var result = add(10,20,30,40);//会发生什么？
 
 基本对象包括：
 
-![image-20230505110322820](笔记图片/image-20230505110322820.png)
+![image-20230505110322820](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230505110322820.png)
 
 BOM对象,主要是和浏览器相关的几个对象：
 
-![image-20230505110522393](笔记图片/image-20230505110522393.png)
+![image-20230505110522393](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230505110522393.png)
 
 DOM对象，JavaScript中将html的每一个标签都封装成一个对象：
 
-![image-20230505110538094](笔记图片/image-20230505110538094.png)
+![image-20230505110538094](http://typora-img-zhangle.superaiclub.com/javaStudyImg/image-20230505110538094.png)
 
 + **基本对象–Array**
 
@@ -1738,7 +1738,7 @@ export default {
 
 ![image-20230510195504325](笔记图片/image-20230510195504325.png)
 
-整个完整代码如下，不要能全部写出，能狗看懂结构和内容即可。
+整个完整代码如下，不要能全部写出，能够看懂结构和内容即可。
 
 ```html
 <template>
